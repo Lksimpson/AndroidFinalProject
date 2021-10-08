@@ -31,10 +31,10 @@
         android:id="@+id/movieList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView">
+        app:layout_constraintTop_toBottomOf="@+id/instructions">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Favorites"
+        android:text="Movie list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appLogo" />
@@ -52,25 +52,19 @@
         android:id="@+id/instructions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="Select Movies below to add to Favorites List:"
+        android:text="Your favorites:"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/full_list_btn" />
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="26dp"
-        android:layout_height="23dp"
-        tools:layout_editor_absoluteX="405dp"
-        tools:layout_editor_absoluteY="295dp" />
-
     <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="311dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/instructions" />
+        android:layout_width="229dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toEndOf="@+id/instructions"
+        app:layout_constraintTop_toBottomOf="@+id/full_list_btn" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
