@@ -38,6 +38,7 @@ class TrendingFragment : Fragment() {
         //fun onFavoritesSelected(gameId: UUID)
         fun onFavoritesSelected()
         fun onTrendingSelected()
+        fun onMovieSelected(db_ID: UUID, tmdb_id: Int)
         fun onSelectFavoriteSelected()
     }
 
@@ -194,6 +195,7 @@ class TrendingFragment : Fragment() {
         private val descTextView: TextView = itemView.findViewById(R.id.movie_desc)
         private val voteavgTextView: TextView = itemView.findViewById(R.id.movie_voteavg)
         private val poster: ImageView = itemView.findViewById(R.id.movie_poster) as ImageView
+        private val checkBox: CheckBox = itemView.findViewById(R.id.checkBox) as CheckBox
 
         val bindDrawable: (Drawable) -> Unit = poster::setImageDrawable
 
@@ -223,9 +225,10 @@ class TrendingFragment : Fragment() {
         }
 
         override fun onClick(v: View?) {
-            Toast.makeText(context, "${movie.id} clicked!", Toast.LENGTH_SHORT).show()
-            callbacks?.onSelectFavoriteSelected()
+            Toast.makeText(context, "${movie.tmdb_id} clicked!", Toast.LENGTH_SHORT).show()
+            callbacks?.onMovieSelected(movie.db_id,movie.tmdb_id)
         }
+
     }
 
 

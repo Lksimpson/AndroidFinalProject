@@ -1,7 +1,17 @@
 package com.example.finalproject
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
+import java.util.*
+
+@Entity(tableName = MainActivity.TABLE_NAME)
 data class MovieItem(
-    var id: Int = 0,
+    //@SerializedName("id")
+    @PrimaryKey
+    var db_id: UUID = UUID.randomUUID(),
+    @SerializedName("id")
+    var tmdb_id: Int = 0,
     var original_language: String = "",
     var original_title: String = "",
     var overview: String = "",

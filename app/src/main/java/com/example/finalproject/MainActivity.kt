@@ -10,6 +10,10 @@ private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity(),
     TrendingFragment.Callbacks{
 
+    companion object {
+        const val TABLE_NAME: String="table_favorites"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -38,6 +42,16 @@ class MainActivity : AppCompatActivity(),
     override fun onTrendingSelected() {
         Log.d(TAG, "MainActivity.onTrendingSelected:" )
         val fragment = TrendingFragment()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onMovieSelected(db_ID: UUID, tmdb_id: Int) {
+        Log.d(TAG, "MainActivity.onMovieSelected:" )
+        val fragment = MovieDetailsFragment().newInstance(db_ID, tmdb_id)
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)

@@ -2,8 +2,10 @@ package com.example.finalproject
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import java.io.File
+import java.util.*
 
 private const val TAG = "MoviesAppViewModel"
 
@@ -19,10 +21,10 @@ class MoviesAppViewModel : ViewModel(){
         super.onCleared()
         Log.d(TAG, "ViewModel instance about to be destroyed")
     }
-    //private val gameRepository = GameRepository.get()
-    //val gameListLiveData = gameRepository.getGames()
 
-
+    private val favoritesRepository = FavoritesRepository.get()
+    val favoritesListLiveData = favoritesRepository.getFavorites()
+    private val movieDetailLiveData = MutableLiveData<UUID>()
 
     //val curMovie = MovieItem()
     //store team scores here
@@ -45,12 +47,16 @@ class MoviesAppViewModel : ViewModel(){
 //    fun setCurrentBScore(newScore: Int) {
 //        curGame.teamBScore = newScore
 //    }
-//    fun addGame(game: Game) {
-//        gameRepository.addGame(game)
-//    }
-//    fun updateGame(game: Game) {
-//        gameRepository.updateGame(game)
-//    }
+    fun addFavorite(favorite: MovieItem) {
+        favoritesRepository.addFavorite(favorite)
+    }
+    fun updateFavorite(favorite: MovieItem) {
+        favoritesRepository.updateFavorite(favorite)
+    }
+
+    fun loadMovie(movieId: UUID) {
+        movieDetailLiveData.value = movieId
+    }
 //    fun getPhotoFile(game: Game): File {
 //        return gameRepository.getPhotoFile(game)
 //    }

@@ -100,7 +100,7 @@ class FavoritesListFragment : Fragment(){
         }
 
         override fun onClick(v: View?) {
-            Toast.makeText(context, "${movie.id} clicked!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "${movie.tmdb_id} clicked!", Toast.LENGTH_SHORT).show()
             callbacks?.onSelectFavoriteSelected()
         }
     }
