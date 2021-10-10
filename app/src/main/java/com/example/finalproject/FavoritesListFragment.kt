@@ -46,7 +46,7 @@ class FavoritesListFragment : Fragment(){
 
         favoritesRecyclerView.adapter = adapter
 
-        favoritesBtn = view.findViewById(R.id.full_list_btn)
+        favoritesBtn = view.findViewById(R.id.movie_list_btn)
         favoritesBtn.setOnClickListener {
 
             callbacks?.onTrendingSelected()

@@ -229,28 +229,6 @@ class TrendingFragment : Fragment() {
     }
 
 
-
-//    private inner class PhotoAdapter(private val galleryItems: List<GalleryItem>) :
-//        RecyclerView.Adapter<PhotoHolder>() {
-//
-//        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoHolder {
-//            val view = layoutInflater.inflate(R.layout.list_item_gallery, parent, false) as ImageView
-//            return PhotoHolder(view)
-//        }
-//
-//        override fun getItemCount(): Int = galleryItems.size
-//
-//        override fun onBindViewHolder(holder: PhotoHolder, position: Int) {
-//            val galleryItem = galleryItems[position]
-//            val placeholder: Drawable = ContextCompat.getDrawable(
-//                requireContext(),
-//                R.drawable.bill_up_close
-//            ) ?: ColorDrawable()
-//            holder.bindDrawable(placeholder)
-//            thumbnailDownloader.queueThumbnail(holder, galleryItem.url)
-//        }
-//    }
-
     private inner class MovieAdapter(var movies: List<MovieItem>)
         : RecyclerView.Adapter<MovieHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
