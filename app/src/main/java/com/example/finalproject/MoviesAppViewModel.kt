@@ -1,14 +1,19 @@
 package com.example.finalproject
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import java.io.File
 
 private const val TAG = "MoviesAppViewModel"
 
 class MoviesAppViewModel : ViewModel(){
+
+    val movieItemLiveData: LiveData<List<MovieItem>>
+
     init {
         Log.d(TAG, "ViewModel instance created")
+        movieItemLiveData = tmdbFetchr().getTrending()
     }
     override fun onCleared() {
         super.onCleared()
@@ -19,9 +24,9 @@ class MoviesAppViewModel : ViewModel(){
 
 
 
-    val curMovie = MovieItem()
+    //val curMovie = MovieItem()
     //store team scores here
-    var isScoreSaved = false
+    //var isScoreSaved = false
 
 
     //val gameSummary = mutableListOf<Games>()

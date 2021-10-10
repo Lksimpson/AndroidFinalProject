@@ -1,8 +1,13 @@
 package com.example.finalproject
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
+import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.group27project1.api.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,40 +21,42 @@ class tmdbFetchr {
     private val TmdbApi: tmdbApi
     init {
         val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("https://api.openweathermap.org/")
+            .baseUrl("https://api.themoviedb.org/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         TmdbApi = retrofit.create(tmdbApi::class.java)
     }
 
-    fun getTrending(currentLatitude: Double, currentLongitude: Double): MutableLiveData<MovieItem> {
-        val responseLiveData: MutableLiveData<MovieItem> = MutableLiveData()
+    fun getTrending(): LiveData<List<MovieItem>> {
+        val responseLiveData: MutableLiveData<List<MovieItem>> = MutableLiveData()
+        val tmdbRequest: Call<TrendingResponse> = TmdbApi.getTrending()
 
-//        val locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-
-        val flickrRequest: Call<TrendingResponse> = TmdbApi.getTrending(currentLatitude.toString(), currentLongitude.toString())
-        flickrRequest.enqueue(object : Callback<TrendingResponse> {
+        tmdbRequest.enqueue(object : Callback<TrendingResponse> {
             override fun onFailure(call: Call<TrendingResponse>, t: Throwable) {
                 Log.e(TAG, "Failed to fetch photos", t)
             }
-            override fun onResponse(
-                call: Call<TrendingResponse>,
-                response: Response<TrendingResponse>
-            ) {
+            override fun onResponse(call: Call<TrendingResponse>, response: Response<TrendingResponse>) {
                 Log.d(TAG, "Response received")
-                //responseLiveData.value = response.body()
                 val trendingResponse: TrendingResponse? = response.body()
                 var trendingMoviesList: List<MovieItem> = trendingResponse?.results?: mutableListOf()
-//                entryResponse = entryResponse.filterNot {
-//                  //  it.isBlank()
-//                }
-                //var weItem: MovieItem = entryResponse?.get(1).weItems
 
-                responseLiveData.value = trendingMoviesList.get(1)
+                trendingMoviesList = trendingMoviesList.filterNot {
+                    it.poster_path.isNullOrBlank()
+                }
+
+                responseLiveData.value = trendingMoviesList
             }
         })
+
         return responseLiveData
+    }
+
+    @WorkerThread
+    fun fetchPhoto(url: String): Bitmap? {
+        val response: Response<ResponseBody> = TmdbApi.fetchUrlBytes(url).execute()
+        val bitmap = response.body()?.byteStream()?.use(BitmapFactory::decodeStream)
+        Log.i(TAG, "Decoded bitmap=$bitmap from Response=$response")
+        return bitmap
     }
 
 }

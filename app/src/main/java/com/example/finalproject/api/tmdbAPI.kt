@@ -1,21 +1,23 @@
 package com.example.group27project1.api
 
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 interface tmdbApi {
 
     @GET(
-        "data/2.5/forecast?id=524901"+
-                "&appid=cdab7026197127a8a9654afad9de122d"+
-                "&exclude=minutely,hourly,daily,alerts" +
-                "&units=metric"
+        "3/trending/movie/day?api_key=165a3064b3775600958191f699fc1a99"
                 //"&lat=42.2743&lon=-71.8081"
 
     )
-    fun getTrending(@Query("lat") lat: String?, @Query("lon") lon: String?): Call<TrendingResponse>
+    fun getTrending(): Call<TrendingResponse>
     //fun fetchPhotos(): Call<WeatherResponse>
+
+    @GET
+    fun fetchUrlBytes(@Url url: String): Call<ResponseBody>
 }
 
 //api key 165a3064b3775600958191f699fc1a99

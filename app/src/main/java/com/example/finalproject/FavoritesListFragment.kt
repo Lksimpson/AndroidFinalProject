@@ -122,8 +122,8 @@ class FavoritesListFragment : Fragment(){
         }
     }
 
-    private fun updateUI(games: List<MovieItem>) {
-        adapter = MovieAdapter(games)
+    private fun updateUI(movies: List<MovieItem>) {
+        adapter = MovieAdapter(movies)
         favoritesRecyclerView.adapter = adapter
     }
 }
