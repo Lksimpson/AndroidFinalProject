@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Final Project</string>
     <string name="app_title">Movie App</string>
-    <string name="favorites">Your Favorites</string>
+    <string name="favorites">Your Favorites:</string>
     <string name="movie_list">Movie List</string>
     <string name="trend_list">Trending Movies List:</string>
     <string name="fav_list">Favorites List</string>
