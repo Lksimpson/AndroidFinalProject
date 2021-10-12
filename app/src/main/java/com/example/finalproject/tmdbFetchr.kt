@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.finalproject.api.SearchResponse
 import com.example.finalproject.api.TrendingResponse
 import com.example.finalproject.api.tmdbApi
 import okhttp3.ResponseBody
@@ -46,6 +47,30 @@ class tmdbFetchr {
                 }
 
                 responseLiveData.value = trendingMoviesList
+            }
+        })
+
+        return responseLiveData
+    }
+
+    fun getSearch(query: String): LiveData<List<MovieItem>> {
+        val responseLiveData: MutableLiveData<List<MovieItem>> = MutableLiveData()
+        val tmdbRequest: Call<SearchResponse> = TmdbApi.getSearch(query)
+
+        tmdbRequest.enqueue(object : Callback<SearchResponse> {
+            override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
+                Log.e(TAG, "Failed to fetch search", t)
+            }
+            override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
+                Log.d(TAG, "Response received")
+                val searchResponse: SearchResponse? = response.body()
+                var searchMoviesList: List<MovieItem> = searchResponse?.results?: mutableListOf()
+
+                searchMoviesList = searchMoviesList.filterNot {
+                    it.poster_path.isNullOrBlank()
+                }
+
+                responseLiveData.value = searchMoviesList
             }
         })
 

@@ -3,6 +3,7 @@ package com.example.finalproject
 import android.content.Context
 import android.graphics.Movie
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
+
+private const val TAG = "MovieDetailsFragment"
 
 
 private const val ARG_DB_ID = "db_id"
@@ -62,6 +65,16 @@ class MovieDetailsFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        favoritesListViewModel.favoritesListLiveData.observe(
+            viewLifecycleOwner,
+            Observer { favorites ->
+                favorites?.let {
+                    Log.i(TAG, "Got favorites ${favorites.size}")
+                    updateUI(favorites)
+                }
+            })
+
         val view = inflater.inflate(R.layout.movie_details, container, false)
         titleField = view.findViewById(R.id.movie_title) as TextView
         genreField = view.findViewById(R.id.genre) as TextView
@@ -70,22 +83,44 @@ class MovieDetailsFragment : Fragment(){
 
         favoritesButton = view.findViewById(R.id.add_to_favorites)
 
+
+        //check if movie is in favorites list
+//        var flag = 0
+//        for (i in favoritesListViewModel.favoritesListLiveData.value!!) {
+//            if (i.db_id == favoritesListViewModel.movieLiveData.value?.db_id)
+//                flag = 1
+//        }
+//
+//        if (flag == 0)//not in list, add
+//        {
+//
+//        }
+//        else//in list, update
+//        {
+//            favoritesButton.visibility = View.GONE
+//
+//        }
+
+
         favoritesButton.setOnClickListener {
             // check if movie is in favorites list
             var flag = 0
-//            for (i in bbViewModel.gameListLiveData.value!!) {
-//                if (i.id == bbViewModel.curGame.id)
-//                    flag = 1
-//
-//            }
+            for (i in favoritesListViewModel.favoritesListLiveData.value!!) {
+                if (i.db_id == favoritesListViewModel.movieLiveData.value?.db_id)
+                    flag = 1
+            }
             if (flag == 0)//not in list, add
                 favoritesListViewModel.movieLiveData.value?.let { it1 ->
                     favoritesListViewModel.addFavorite(
                         it1
                     )
                 }
-//            else//in list, update
-//                bbViewModel.updateGame(bbViewModel.curGame)
+            else//in list, update
+                favoritesListViewModel.movieLiveData.value?.let { it1 ->
+                    favoritesListViewModel.updateFavorite(
+                        it1
+                    )
+                }
         }
 //        favoritesRecyclerView =
 //            view.findViewById(R.id.movieList) as RecyclerView
@@ -101,6 +136,8 @@ class MovieDetailsFragment : Fragment(){
 //        }
         return view
     }
+
+    //favoritesBtn.visibility = View.GONE
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -120,6 +157,21 @@ class MovieDetailsFragment : Fragment(){
                     otherField.text = rating
                     directorField.text = posterpath
                    // updateUI()
+                    var flag = 0
+                    for (i in favoritesListViewModel.favoritesListLiveData.value!!) {
+                        if (i.db_id == favoritesListViewModel.movieLiveData.value?.db_id)
+                            flag = 1
+                    }
+
+                    if (flag == 0)//not in list, add
+                    {
+
+                    }
+                    else//in list, update
+                    {
+                        favoritesButton.visibility = View.GONE
+
+                    }
                 }
             })
     }

@@ -1,5 +1,7 @@
 package com.example.finalproject
 
+import android.app.SearchManager
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -27,6 +29,13 @@ class MainActivity : AppCompatActivity(),
                 .add(R.id.fragment_container, fragment)
                 .commit()
         }
+
+        // Verify the action and get the query
+//        if (Intent.ACTION_SEARCH == intent.action) {
+//            intent.getStringExtra(SearchManager.QUERY)?.also { query ->
+//                doMySearch(query)
+//            }
+//        }
     }
     //override fun onFavoritesSelected(gameId: UUID) {
     override fun onFavoritesSelected() {
@@ -68,4 +77,5 @@ class MainActivity : AppCompatActivity(),
 //            .addToBackStack(null)
 //            .commit()
     }
+
 }

@@ -15,5 +15,5 @@
     <string name="genre">Genre</string>
     <string name="add_favs">Add Movie to Favorites</string>
     <string name="my_reaction">My Reaction:</string>
-
+    <string name="search_hint">hint</string>
 </resources>

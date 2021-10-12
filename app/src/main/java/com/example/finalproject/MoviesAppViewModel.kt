@@ -12,28 +12,26 @@ private const val TAG = "MoviesAppViewModel"
 class MoviesAppViewModel : ViewModel(){
 
 
-    val movieItemLiveData: LiveData<List<MovieItem>>
+    var movieItemLiveData: LiveData<List<MovieItem>>
 
     init {
         Log.d(TAG, "ViewModel instance created")
-        movieItemLiveData = tmdbFetchr().getTrending()
+        //movieItemLiveData = tmdbFetchr().getTrending()
+        movieItemLiveData = tmdbFetchr().getSearch("Star Wars")
     }
     override fun onCleared() {
         super.onCleared()
         Log.d(TAG, "ViewModel instance about to be destroyed")
     }
 
+//    fun onSearch(query: String){
+//        Log.d(TAG, "Search Made")
+//        movieItemLiveData = tmdbFetchr().getSearch(query)
+//    }
+
     private val favoritesRepository = FavoritesRepository.get()
     val favoritesListLiveData = favoritesRepository.getFavorites()
     val movieLiveData = MutableLiveData<MovieItem>()
-    private val movieDetailLiveData = MutableLiveData<UUID>()
-    private val movieDetailLiveData_title = MutableLiveData<String>()
-    private val movieDetailLiveData_overview = MutableLiveData<String>()
-    private val movieDetailLiveData_rating = MutableLiveData<String>()
-    private val movieDetailLiveData_posterpath = MutableLiveData<String>()
-
-    //store team scores here
-    //var isScoreSaved = false
 
 
     //val gameSummary = mutableListOf<Games>()

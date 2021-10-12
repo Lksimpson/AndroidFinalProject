@@ -1,5 +1,6 @@
 package com.example.finalproject
 
+import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -20,7 +21,9 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Handler
+import android.view.KeyEvent
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 
 
 private const val TAG = "TrendingFragment"
@@ -33,6 +36,7 @@ class TrendingFragment : Fragment() {
         fun onTrendingSelected()
         fun onMovieSelected(movie: MovieItem)
         fun onSelectFavoriteSelected()
+      //  abstract fun doMySearch(query: String)
     }
 
     private var callbacks: Callbacks? = null
@@ -57,7 +61,7 @@ class TrendingFragment : Fragment() {
     }
 
     private lateinit var  favoritesBtn: Button
-
+    private lateinit var searchBar: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,10 +103,26 @@ class TrendingFragment : Fragment() {
 
         favoritesBtn = view.findViewById(R.id.favorites_btn)
         favoritesBtn.setOnClickListener {
-
             callbacks?.onFavoritesSelected()
-
         }
+
+        searchBar = view.findViewById(R.id.searchView) as SearchView
+        searchBar.setSubmitButtonEnabled(true)
+        searchBar.setOnSearchClickListener() {
+            Log.i(TAG, "Got movies $")
+        }
+        searchBar.setOnSearchClickListener() { Log.i(TAG, "Got movies 22$") }
+        searchBar.setOnClickListener { Log.i(TAG, "soconfused") }
+
+        searchBar.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                //Perform Code
+                Log.i(TAG, "soconfused")
+                return@OnKeyListener true
+            }
+            false
+        })
+//        searchBar
 
         return view
         //return super.onCreateView(inflater, container, savedInstanceState)
@@ -179,10 +199,14 @@ class TrendingFragment : Fragment() {
 //        }
     }
 
+    fun doMySearch(query:String)
+    {
+
+    }
+
     private inner class MovieHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
         private lateinit var movie: MovieItem
-
 
         private val titleTextView: TextView = itemView.findViewById(R.id.movie_title)
         private val descTextView: TextView = itemView.findViewById(R.id.movie_desc)

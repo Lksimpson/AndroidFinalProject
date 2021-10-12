@@ -1,20 +1,23 @@
 package com.example.finalproject
 
 import android.content.Context
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.location.LocationServices
 
 private const val TAG = "FavoritesListFragment"
 
@@ -22,6 +25,7 @@ class FavoritesListFragment : Fragment(){
 
     private var callbacks: TrendingFragment.Callbacks? = null
     private lateinit var favoritesRecyclerView: RecyclerView
+    private lateinit var thumbnailDownloader: ThumbnailDownloader<MovieHolder>
     private var adapter: MovieAdapter? = MovieAdapter(emptyList())
     private val favoritesListViewModel: MoviesAppViewModel by lazy {
         ViewModelProviders.of(this).get(MoviesAppViewModel::class.java)
@@ -33,6 +37,20 @@ class FavoritesListFragment : Fragment(){
     }
 
     private lateinit var  favoritesBtn: Button
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true
+        val responseHandler = Handler()
+        thumbnailDownloader =
+            ThumbnailDownloader(responseHandler) { photoHolder, bitmap ->
+                val drawable = BitmapDrawable(resources, bitmap)
+                photoHolder.bindDrawable(drawable)
+            }
+        lifecycle.addObserver(thumbnailDownloader.fragmentLifecycleObserver)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,10 +77,10 @@ class FavoritesListFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         favoritesListViewModel.favoritesListLiveData.observe(
             viewLifecycleOwner,
-            Observer { movies ->
-                movies?.let {
-                    Log.i(TAG, "Got favorites ${movies.size}")
-                    updateUI(movies)
+            Observer { favorites ->
+                favorites?.let {
+                    Log.i(TAG, "Got favorites ${favorites.size}")
+                    updateUI(favorites)
                 }
             })
     }
@@ -78,10 +96,12 @@ class FavoritesListFragment : Fragment(){
         private lateinit var movie: MovieItem
 
         private val titleTextView: TextView = itemView.findViewById(R.id.movie_title)
+        private val descTextView: TextView = itemView.findViewById(R.id.movie_desc)
+        private val voteavgTextView: TextView = itemView.findViewById(R.id.movie_voteavg)
+        private val poster: ImageView = itemView.findViewById(R.id.movie_poster) as ImageView
+        private val checkBox: CheckBox = itemView.findViewById(R.id.checkBox) as CheckBox
 
-
-
-       // var teamLogoImageView: ImageView = itemView.findViewById(R.id.team_logo)
+        val bindDrawable: (Drawable) -> Unit = poster::setImageDrawable
         init {
             itemView.setOnClickListener(this)
         }
@@ -89,19 +109,14 @@ class FavoritesListFragment : Fragment(){
         fun bind(movie: MovieItem) {
             this.movie = movie
             titleTextView.text = movie.title
-//            dateTextView.text = game.date.toString()
-//            scoreTextView.text = game.teamAScore.toString()+":"+game.teamBScore.toString()
-//            //conditionally switch the image drawable to display winning team logo
-//            if (game.teamAScore > game.teamBScore){
-//                teamLogoImageView.setImageDrawable(resources.getDrawable(R.drawable.ic_teama))
-//            } else {
-//                teamLogoImageView.setImageDrawable(resources.getDrawable(R.drawable.ic_teamb))
-//            }
+            descTextView.text = movie.overview
+            voteavgTextView.text = movie.vote_average.toString()
+            this.movie.poster_path = "https://image.tmdb.org/t/p/" + "w92/" + this.movie.poster_path
         }
 
         override fun onClick(v: View?) {
             Toast.makeText(context, "${movie.tmdb_id} clicked!", Toast.LENGTH_SHORT).show()
-            callbacks?.onSelectFavoriteSelected()
+            callbacks?.onMovieSelected(movie)
         }
     }
 
@@ -119,6 +134,10 @@ class FavoritesListFragment : Fragment(){
         override fun onBindViewHolder(holder: MovieHolder, position: Int) {
             val movie = movies[position]
             holder.bind(movie)
+
+            val placeholder: Drawable = ContextCompat.getDrawable(requireContext(), R.drawable.tmdblogo) ?: ColorDrawable()
+            holder.bindDrawable(placeholder)
+            thumbnailDownloader.queueThumbnail(holder, movie.poster_path)
         }
     }
 
