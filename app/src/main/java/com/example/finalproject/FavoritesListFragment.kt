@@ -99,7 +99,7 @@ class FavoritesListFragment : Fragment(){
         private val descTextView: TextView = itemView.findViewById(R.id.movie_desc)
         private val voteavgTextView: TextView = itemView.findViewById(R.id.movie_voteavg)
         private val poster: ImageView = itemView.findViewById(R.id.movie_poster) as ImageView
-        private val checkBox: CheckBox = itemView.findViewById(R.id.checkBox) as CheckBox
+
 
         val bindDrawable: (Drawable) -> Unit = poster::setImageDrawable
         init {
