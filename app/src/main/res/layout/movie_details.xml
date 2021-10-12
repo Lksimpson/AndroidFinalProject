@@ -13,66 +13,66 @@
         android:layout_marginTop="8dp"
         android:text="@string/movie_title"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/movie_logo"
+        android:layout_width="135dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movie_title"
+        app:srcCompat="@drawable/tmdblogo" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/movie_desc"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/movie_logo"
+        app:layout_constraintTop_toBottomOf="@+id/movie_title" />
 
     <TextView
         android:id="@+id/rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="32dp"
         android:text="@string/rating"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/score_text"
+        app:layout_constraintTop_toTopOf="@+id/score_text" />
 
     <TextView
-        android:id="@+id/genre"
+        android:id="@+id/score_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/genre"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="Voter Score: "
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movie_title" />
-
-    <TextView
-        android:id="@+id/director"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/director"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/genre" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/my_rating"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/uploaded_photo" />
+        app:layout_constraintTop_toBottomOf="@+id/movie_logo" />
 
     <TextView
         android:id="@+id/reaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
         android:text="@string/my_reaction"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/director" />
+        app:layout_constraintTop_toBottomOf="@+id/score_text" />
 
     <ImageView
         android:id="@+id/uploaded_photo"
-        android:layout_width="174dp"
-        android:layout_height="165dp"
+        android:layout_width="85dp"
+        android:layout_height="79dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="#4B615C5C"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reaction"
@@ -82,18 +82,18 @@
         android:id="@+id/camera_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/uploaded_photo"
         app:layout_constraintStart_toEndOf="@+id/uploaded_photo"
-        app:layout_constraintTop_toTopOf="@+id/uploaded_photo"
+        app:layout_constraintTop_toBottomOf="@+id/reaction"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <Button
         android:id="@+id/movies_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
         android:text="Movie list"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -102,30 +102,20 @@
         android:id="@+id/favorites_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="Favorites"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <me.zhanghai.android.materialratingbar.MaterialRatingBar
-        android:id="@+id/materialRatingBar"
-        style="@style/Widget.MaterialRatingBar.RatingBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
     <Button
-        android:id="@+id/add_to_favorites"
-        android:layout_width="wrap_content"
+        android:id="@+id/add_to_fav_btn"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/add_favs"
-        app:layout_constraintBottom_toTopOf="@+id/movies_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialRatingBar" />
+        app:layout_constraintBottom_toTopOf="@+id/favorites_btn"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
