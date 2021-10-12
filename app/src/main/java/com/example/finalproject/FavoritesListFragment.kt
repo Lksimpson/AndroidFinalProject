@@ -102,9 +102,8 @@ class FavoritesListFragment : Fragment(){
 
         private val titleTextView: TextView = itemView.findViewById(R.id.movie_title)
 
+        private var toggleButton : ToggleButton = itemView.findViewById(R.id.toggleButton)
         private var deleteButton: ImageButton = itemView.findViewById(R.id.delete_btn)
-        //private val descTextView: TextView = itemView.findViewById(R.id.movie_desc)
-        //private val voteavgTextView: TextView = itemView.findViewById(R.id.movie_voteavg)
         private val poster: ImageView = itemView.findViewById(R.id.imageView2) as ImageView
 
         val bindDrawable: (Drawable) -> Unit = poster::setImageDrawable
@@ -115,8 +114,15 @@ class FavoritesListFragment : Fragment(){
         fun bind(movie: MovieItem) {
             this.movie = movie
             titleTextView.text = movie.original_title
-//            descTextView.text = movie.overview
-//            voteavgTextView.text = movie.vote_average.toString()
+
+            toggleButton.setOnClickListener {
+                favoritesListViewModel.movieLiveData.value?.let { it1 ->
+                    it1.video = "Watched"
+                    favoritesListViewModel.updateFavorite(
+                        it1
+                    )
+                }
+            }
 
             deleteButton.setOnClickListener {
                 favoritesListViewModel.movieLiveData.value?.let { it1 ->

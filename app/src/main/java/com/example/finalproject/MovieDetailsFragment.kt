@@ -117,24 +117,6 @@ class MovieDetailsFragment : Fragment(){
             callbacks?.onTrendingSelected()
         }
 
-        //check if movie is in favorites list
-//        var flag = 0
-//        for (i in favoritesListViewModel.favoritesListLiveData.value!!) {
-//            if (i.db_id == favoritesListViewModel.movieLiveData.value?.db_id)
-//                flag = 1
-//        }
-//
-//        if (flag == 0)//not in list, add
-//        {
-//
-//        }
-//        else//in list, update
-//        {
-//            favoritesButton.visibility = View.GONE
-//
-//        }
-
-
         AddfavoritesButton.setOnClickListener {
             // check if movie is in favorites list
             var flag = 0
@@ -155,22 +137,9 @@ class MovieDetailsFragment : Fragment(){
                     )
                 }
         }
-//        favoritesRecyclerView =
-//            view.findViewById(R.id.movieList) as RecyclerView
-//        favoritesRecyclerView.layoutManager = LinearLayoutManager(context)
-//
-//        favoritesRecyclerView.adapter = adapter
-//
-//        favoritesBtn = view.findViewById(R.id.movie_list_btn)
-//        favoritesBtn.setOnClickListener {
-//
-//            callbacks?.onTrendingSelected()
-//
-//        }
+
         return view
     }
-
-    //favoritesBtn.visibility = View.GONE
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -223,8 +192,6 @@ class MovieDetailsFragment : Fragment(){
 
 
     private fun updateUI(movies: List<MovieItem>) {
-//        adapter = MovieAdapter(movies)
-//        favoritesRecyclerView.adapter = adapter
         updatePhotoView()
     }
 
@@ -282,14 +249,6 @@ class MovieDetailsFragment : Fragment(){
 
     override fun onActivityResult(requestCode: Int,  resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-//        if (resultCode != Activity.RESULT_OK) {
-//            return
-//        }
-//        if (requestCode == REQUEST_CODE_SAVE) {
-//            bbViewModel.isScoreSaved =
-//                data?.getBooleanExtra(EXTRA_SCORES_SAVED, false) ?: false
-//        }
-//
         if (requestCode == REQUEST_PHOTO) {
             requireActivity().revokeUriPermission(photoUri,
                 Intent.FLAG_GRANT_WRITE_URI_PERMISSION)

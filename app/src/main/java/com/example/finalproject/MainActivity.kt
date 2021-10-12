@@ -30,14 +30,7 @@ class MainActivity : AppCompatActivity(),
                 .commit()
         }
 
-        // Verify the action and get the query
-//        if (Intent.ACTION_SEARCH == intent.action) {
-//            intent.getStringExtra(SearchManager.QUERY)?.also { query ->
-//                doMySearch(query)
-//            }
-//        }
     }
-    //override fun onFavoritesSelected(gameId: UUID) {
     override fun onFavoritesSelected() {
         Log.d(TAG, "MainActivity.onFavoritesSelected: ")
         val fragment = FavoritesListFragment.newInstance()

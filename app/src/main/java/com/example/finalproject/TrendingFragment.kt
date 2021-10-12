@@ -14,22 +14,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Handler
-import android.view.KeyEvent
+
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
-import android.view.inputmethod.EditorInfo
 
 import android.widget.TextView
-
-import android.widget.TextView.OnEditorActionListener
-
 
 
 
@@ -44,11 +37,9 @@ class TrendingFragment : Fragment() {
         fun onTrendingSelected()
         fun onMovieSelected(movie: MovieItem)
 
-      //  abstract fun doMySearch(query: String)
     }
 
     private var callbacks: Callbacks? = null
-    //private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var fullListRecyclerView: RecyclerView
     private lateinit var thumbnailDownloader: ThumbnailDownloader<MovieHolder>
     private var adapter: TrendingFragment.MovieAdapter? = MovieAdapter(emptyList())
@@ -162,21 +153,6 @@ class TrendingFragment : Fragment() {
         callbacks = null
     }
 
-    override fun onActivityResult(requestCode: Int,  resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-//        if (resultCode != Activity.RESULT_OK) {
-//            return
-//        }
-//        if (requestCode == REQUEST_CODE_SAVE) {
-//            bbViewModel.isScoreSaved =
-//                data?.getBooleanExtra(EXTRA_SCORES_SAVED, false) ?: false
-//        }
-//
-//        if (requestCode == REQUEST_PHOTO) {
-//            updatePhotoView()
-//        }
-    }
-
     private inner class MovieHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
         private lateinit var movie: MovieItem
@@ -199,18 +175,7 @@ class TrendingFragment : Fragment() {
             voteavgTextView.text = movie.vote_average.toString()
 
             this.movie.poster_path = "https://image.tmdb.org/t/p/" + "w92/" + this.movie.poster_path
-//            val url = URL(this.movie.poster_path)
-//            val bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-//            poster.setImageBitmap(bmp)
 
-//            dateTextView.text = game.date.toString()
-//            scoreTextView.text = game.teamAScore.toString()+":"+game.teamBScore.toString()
-//            //conditionally switch the image drawable to display winning team logo
-//            if (game.teamAScore > game.teamBScore){
-//                teamLogoImageView.setImageDrawable(resources.getDrawable(R.drawable.ic_teama))
-//            } else {
-//                teamLogoImageView.setImageDrawable(resources.getDrawable(R.drawable.ic_teamb))
-//            }
         }
 
         override fun onClick(v: View?) {
@@ -241,7 +206,4 @@ class TrendingFragment : Fragment() {
         }
 
     }
-
-
-
 }
