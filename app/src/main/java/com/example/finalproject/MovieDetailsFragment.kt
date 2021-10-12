@@ -1,8 +1,15 @@
 package com.example.finalproject
 
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.graphics.Movie
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +21,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.io.File
 import java.util.*
 
 private const val TAG = "MovieDetailsFragment"
@@ -24,6 +32,7 @@ private const val ARG_TITLE = "movie_title"
 private const val ARG_OVERVIEW = "movie_overview"
 private const val ARG_POSTERPATH = "movie_posterpath"
 private const val ARG_RATING = "movie_rating"
+private const val REQUEST_PHOTO = 2
 
 class MovieDetailsFragment : Fragment(){
 
@@ -37,6 +46,8 @@ class MovieDetailsFragment : Fragment(){
     private lateinit var trendingButton: Button
     private lateinit var favoritesButton: Button
     private lateinit var photoView: ImageView
+    private lateinit var photoFile: File
+    private lateinit var photoUri: Uri
 
     private lateinit var AddfavoritesButton: Button
 
@@ -55,6 +66,7 @@ class MovieDetailsFragment : Fragment(){
         super.onAttach(context)
         callbacks = context as TrendingFragment.Callbacks?
     }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -176,6 +188,10 @@ class MovieDetailsFragment : Fragment(){
                     titleField.text = title
                     genreField.text = overview
                     otherField.text = rating
+                    photoFile = favoritesListViewModel.getPhotoFile(this.movie)
+                    photoUri = FileProvider.getUriForFile(requireActivity(),
+                        "com.example.finalproject.android.movieapp.fileprovider",
+                        photoFile)
 //                    directorField.text = posterpath
                    // updateUI()
                     var flag = 0
@@ -201,7 +217,8 @@ class MovieDetailsFragment : Fragment(){
 
     override fun onDetach() {
         super.onDetach()
-        callbacks = null
+        requireActivity().revokeUriPermission(photoUri,
+            Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
     }
 
 //    private inner class MovieHolder(view: View)
@@ -257,6 +274,16 @@ class MovieDetailsFragment : Fragment(){
     private fun updateUI(movies: List<MovieItem>) {
 //        adapter = MovieAdapter(movies)
 //        favoritesRecyclerView.adapter = adapter
+        updatePhotoView()
+    }
+
+    private fun updatePhotoView() {
+        if (photoFile.exists()) {
+            val bitmap = getScaledBitmap(photoFile.path, requireActivity())
+            photoView.setImageBitmap(bitmap)
+        } else {
+            photoView.setImageDrawable(null)
+        }
     }
 
     fun newInstance(movie: MovieItem): Fragment {
@@ -269,6 +296,53 @@ class MovieDetailsFragment : Fragment(){
         }
         return MovieDetailsFragment().apply {
             arguments = args
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onResume() called")
+
+        cameraButton.apply {
+            val packageManager: PackageManager = requireActivity().packageManager
+            val captureImage = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val resolvedActivity: ResolveInfo? =
+                packageManager.resolveActivity(captureImage,
+                    PackageManager.MATCH_DEFAULT_ONLY)
+            if (resolvedActivity == null) {
+                isEnabled = false
+            }
+            setOnClickListener {
+                captureImage.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+                val cameraActivities: List<ResolveInfo> =
+                    packageManager.queryIntentActivities(captureImage,
+                        PackageManager.MATCH_DEFAULT_ONLY)
+                for (cameraActivity in cameraActivities) {
+                    requireActivity().grantUriPermission(
+                        cameraActivity.activityInfo.packageName,
+                        photoUri,
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                }
+                startActivityForResult(captureImage, REQUEST_PHOTO)
+            }
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int,  resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+//        if (resultCode != Activity.RESULT_OK) {
+//            return
+//        }
+//        if (requestCode == REQUEST_CODE_SAVE) {
+//            bbViewModel.isScoreSaved =
+//                data?.getBooleanExtra(EXTRA_SCORES_SAVED, false) ?: false
+//        }
+//
+        if (requestCode == REQUEST_PHOTO) {
+            requireActivity().revokeUriPermission(photoUri,
+                Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            updatePhotoView()
         }
     }
 }

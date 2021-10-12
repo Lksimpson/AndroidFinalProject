@@ -5,7 +5,7 @@
     <string name="movie_list">Movie List</string>
     <string name="trend_list">Trending Movies List:</string>
     <string name="fav_list">Favorites List</string>
-    <string name="instructions">Use the checkboxes to select Movies below to add to Favorites List:</string>
+    <string name="instructions">Click on a movie to view details and add it to your Favorites List</string>
     <string name="movie_title">Movie Title</string>
     <string name="movie_desc">Movie Description</string>
     <string name="vote_avg">Vote Avg</string>
