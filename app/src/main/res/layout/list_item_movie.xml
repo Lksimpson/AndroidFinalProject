@@ -11,8 +11,9 @@
         android:id="@+id/movie_desc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/movie_desc"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/movie_poster"
         app:layout_constraintTop_toBottomOf="@+id/movie_title" />
@@ -21,7 +22,6 @@
         android:id="@+id/movie_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/movie_title"
         android:textAlignment="center"
