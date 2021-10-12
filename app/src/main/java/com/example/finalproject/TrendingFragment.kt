@@ -43,6 +43,7 @@ class TrendingFragment : Fragment() {
         fun onFavoritesSelected()
         fun onTrendingSelected()
         fun onMovieSelected(movie: MovieItem)
+
       //  abstract fun doMySearch(query: String)
     }
 
@@ -88,7 +89,7 @@ class TrendingFragment : Fragment() {
             thumbnailDownloader.viewLifecycleObserver
         )
 
-        val view = inflater.inflate(R.layout.homepage, container, false)
+        var view = inflater.inflate(R.layout.homepage, container, false)
 
         fullListRecyclerView =
             view.findViewById(R.id.movieList) as RecyclerView
@@ -105,35 +106,22 @@ class TrendingFragment : Fragment() {
             Log.i(TAG, "search bar text")
             Log.i(TAG, searchBar.query.toString())
             favoritesListViewModel.movieItemLiveData = tmdbFetchr().getSearch(searchBar.query.toString())
+            fullListRecyclerView.adapter?.notifyDataSetChanged()
+            favoritesListViewModel.movieItemLiveData.observe(
+                viewLifecycleOwner,
+                Observer { movies ->
+                    movies?.let {
+                        Log.i(TAG, "Got movies $movies")
+                        fullListRecyclerView.adapter = MovieAdapter(movies)
+
+                    }
+                })
+
         }
 
         searchBar = view.findViewById(R.id.searchView) as SearchView
-        searchBar.setSubmitButtonEnabled(true)
-        searchBar.setOnSearchClickListener() {
-            Log.i(TAG, "Got movies $")
-        }
-        searchBar.setOnSearchClickListener() { searchBar.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_SEARCH && event.action == KeyEvent.ACTION_UP) {
-                //Perform Code
-                Log.i(TAG, "soconfused44")
-                return@OnKeyListener true
-            }
-            false
-        })}
-        //searchBar.setOnClickListener { Log.i(TAG, "soconfused") }
-
-
-        searchBar.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_SEARCH && event.action == KeyEvent.ACTION_UP) {
-                //Perform Code
-                Log.i(TAG, "soconfused")
-                return@OnKeyListener true
-            }
-            false
-        })
 
         return view
-        //return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -144,24 +132,6 @@ class TrendingFragment : Fragment() {
                 movies?.let {
                     Log.i(TAG, "Got movies $movies")
                     fullListRecyclerView.adapter = MovieAdapter(movies)
-                    //updateUI(movies)
-//                    this.game = games.get(1)
-//
-//                    photoAFile = bbViewModel.getPhotoFile(game)
-//                    photoAUri = FileProvider.getUriForFile(requireActivity(),
-//                        "com.example.group27project1.fileprovider",
-//                        photoAFile)
-//
-//                    this.game = games.get(2)
-//                    photoBFile = bbViewModel.getPhotoFile(game)
-//                    photoBUri = FileProvider.getUriForFile(requireActivity(),
-//                        "com.example.group27project1.fileprovider",
-//                        photoBFile)
-//
-//                    //updateUI(games)
-//                    updatePhotoView()
-//
-//                    gameWeatherTextView.setText("1")
 
                 }
             })
