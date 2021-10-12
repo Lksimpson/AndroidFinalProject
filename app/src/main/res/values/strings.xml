@@ -17,4 +17,5 @@
     <string name="my_reaction">My Reaction:</string>
     <string name="search_hint">hint</string>
     <string name="score_text">Voter Score: </string>
+    <string name="search">Search</string>
 </resources>
