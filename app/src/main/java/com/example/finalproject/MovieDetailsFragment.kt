@@ -45,7 +45,7 @@ class MovieDetailsFragment : Fragment(){
     private lateinit var otherField: TextView
     private lateinit var trendingButton: Button
     private lateinit var favoritesButton: Button
-    private lateinit var photoView: ImageView
+    //private lateinit var photoView: ImageView
     private lateinit var photoFile: File
     private lateinit var photoUri: Uri
 
@@ -91,7 +91,7 @@ class MovieDetailsFragment : Fragment(){
             Observer { favorites ->
                 favorites?.let {
                     Log.i(TAG, "Got favorites ${favorites.size}")
-                    updateUI(favorites)
+                    //updateUI(favorites)
                 }
             })
 
@@ -184,7 +184,7 @@ class MovieDetailsFragment : Fragment(){
             viewLifecycleOwner,
             Observer { movie ->
                 movie?.let {
-                    this.movie = movie[0]
+                    this.movie = favoritesListViewModel.movieLiveData.value!!
                     titleField.text = title
                     genreField.text = overview
                     otherField.text = rating
@@ -221,55 +221,6 @@ class MovieDetailsFragment : Fragment(){
             Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
     }
 
-//    private inner class MovieHolder(view: View)
-//        : RecyclerView.ViewHolder(view), View.OnClickListener {
-//
-//        private lateinit var movie: MovieItem
-//
-//        private val titleTextView: TextView = itemView.findViewById(R.id.movie_title)
-//
-//
-//
-//        // var teamLogoImageView: ImageView = itemView.findViewById(R.id.team_logo)
-//        init {
-//            itemView.setOnClickListener(this)
-//        }
-//
-//        fun bind(movie: MovieItem) {
-//            this.movie = movie
-//            titleTextView.text = movie.title
-////            dateTextView.text = game.date.toString()
-////            scoreTextView.text = game.teamAScore.toString()+":"+game.teamBScore.toString()
-////            //conditionally switch the image drawable to display winning team logo
-////            if (game.teamAScore > game.teamBScore){
-////                teamLogoImageView.setImageDrawable(resources.getDrawable(R.drawable.ic_teama))
-////            } else {
-////                teamLogoImageView.setImageDrawable(resources.getDrawable(R.drawable.ic_teamb))
-////            }
-//        }
-//
-//        override fun onClick(v: View?) {
-//            Toast.makeText(context, "${movie.tmdb_id} clicked!", Toast.LENGTH_SHORT).show()
-//            callbacks?.onSelectFavoriteSelected()
-//        }
-//    }
-//
-//    private inner class MovieAdapter(var movies: List<MovieItem>)
-//        : RecyclerView.Adapter<MovieHolder>() {
-//        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
-//            val layoutInflater = LayoutInflater.from(context)
-//
-//            val view = layoutInflater.inflate(R.layout.list_item_movie, parent, false)
-//            return MovieHolder(view)
-//        }
-//
-//        override fun getItemCount() = movies.size
-//
-//        override fun onBindViewHolder(holder: MovieHolder, position: Int) {
-//            val movie = movies[position]
-//            holder.bind(movie)
-//        }
-//    }
 
     private fun updateUI(movies: List<MovieItem>) {
 //        adapter = MovieAdapter(movies)
@@ -280,9 +231,9 @@ class MovieDetailsFragment : Fragment(){
     private fun updatePhotoView() {
         if (photoFile.exists()) {
             val bitmap = getScaledBitmap(photoFile.path, requireActivity())
-            photoView.setImageBitmap(bitmap)
+            reactionView.setImageBitmap(bitmap)
         } else {
-            photoView.setImageDrawable(null)
+            reactionView.setImageDrawable(null)
         }
     }
 

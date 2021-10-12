@@ -62,6 +62,7 @@ class TrendingFragment : Fragment() {
     }
 
     private lateinit var  favoritesBtn: Button
+    private lateinit var  searchBtn: Button
     private lateinit var searchBar: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,10 +98,13 @@ class TrendingFragment : Fragment() {
 
         favoritesBtn = view.findViewById(R.id.favorites_btn)
         favoritesBtn.setOnClickListener {
+            callbacks?.onFavoritesSelected()
+        }
+        searchBtn = view.findViewById(R.id.search_btn)
+        searchBtn.setOnClickListener {
             Log.i(TAG, "search bar text")
             Log.i(TAG, searchBar.query.toString())
             favoritesListViewModel.movieItemLiveData = tmdbFetchr().getSearch(searchBar.query.toString())
-           //callbacks?.onFavoritesSelected()
         }
 
         searchBar = view.findViewById(R.id.searchView) as SearchView
