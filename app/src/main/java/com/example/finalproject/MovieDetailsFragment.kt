@@ -261,7 +261,7 @@ class MovieDetailsFragment : Fragment(){
                 packageManager.resolveActivity(captureImage,
                     PackageManager.MATCH_DEFAULT_ONLY)
             if (resolvedActivity == null) {
-                isEnabled = false
+         //       isEnabled = false
             }
             setOnClickListener {
                 captureImage.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
