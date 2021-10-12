@@ -186,11 +186,13 @@ class MovieDetailsFragment : Fragment(){
 
                     if (flag == 0)//not in list, add
                     {
-
+                        reactionView.visibility = View.GONE
+                        reactionText.visibility = View.GONE
+                        cameraButton.visibility = View.GONE
                     }
                     else//in list, update
                     {
-                        favoritesButton.visibility = View.GONE
+                        AddfavoritesButton.visibility = View.GONE
 
                     }
                 }
