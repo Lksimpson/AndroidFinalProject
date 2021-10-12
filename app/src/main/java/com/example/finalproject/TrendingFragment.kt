@@ -24,6 +24,14 @@ import android.os.Handler
 import android.view.KeyEvent
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
+import android.view.inputmethod.EditorInfo
+
+import android.widget.TextView
+
+import android.widget.TextView.OnEditorActionListener
+
+
+
 
 
 private const val TAG = "TrendingFragment"
@@ -111,18 +119,25 @@ class TrendingFragment : Fragment() {
         searchBar.setOnSearchClickListener() {
             Log.i(TAG, "Got movies $")
         }
-        searchBar.setOnSearchClickListener() { Log.i(TAG, "Got movies 22$") }
-        searchBar.setOnClickListener { Log.i(TAG, "soconfused") }
+        searchBar.setOnSearchClickListener() { searchBar.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_SEARCH && event.action == KeyEvent.ACTION_UP) {
+                //Perform Code
+                Log.i(TAG, "soconfused44")
+                return@OnKeyListener true
+            }
+            false
+        })}
+        //searchBar.setOnClickListener { Log.i(TAG, "soconfused") }
+
 
         searchBar.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+            if (keyCode == KeyEvent.KEYCODE_SEARCH && event.action == KeyEvent.ACTION_UP) {
                 //Perform Code
                 Log.i(TAG, "soconfused")
                 return@OnKeyListener true
             }
             false
         })
-//        searchBar
 
         return view
         //return super.onCreateView(inflater, container, savedInstanceState)
