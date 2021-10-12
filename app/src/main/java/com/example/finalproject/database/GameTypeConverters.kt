@@ -1,9 +1,9 @@
-package com.example.group27project1.database
+package com.example.finalproject.database
 
 import androidx.room.TypeConverter
 import java.util.*
 
-class GameTypeConverters {
+class MovieTypeConverters {
 
     @TypeConverter
     fun fromDate(date: Date?): Long? {

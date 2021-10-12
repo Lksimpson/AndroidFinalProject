@@ -49,9 +49,9 @@ class MainActivity : AppCompatActivity(),
             .commit()
     }
 
-    override fun onMovieSelected(db_ID: UUID, tmdb_id: Int) {
+    override fun onMovieSelected(movie: MovieItem) {
         Log.d(TAG, "MainActivity.onMovieSelected:" )
-        val fragment = MovieDetailsFragment().newInstance(db_ID, tmdb_id)
+        val fragment = MovieDetailsFragment().newInstance(movie)
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)

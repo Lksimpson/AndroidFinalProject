@@ -1,9 +1,8 @@
-package com.example.group27project1.api
+package com.example.finalproject.api
 
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface tmdbApi {

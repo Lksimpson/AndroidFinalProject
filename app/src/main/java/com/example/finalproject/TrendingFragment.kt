@@ -8,26 +8,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.group27project1.api.TrendingResponse
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import java.util.*
-import android.graphics.BitmapFactory
 
-import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Handler
 import androidx.core.content.ContextCompat
-import java.net.URL
 
 
 private const val TAG = "TrendingFragment"
@@ -38,7 +31,7 @@ class TrendingFragment : Fragment() {
         //fun onFavoritesSelected(gameId: UUID)
         fun onFavoritesSelected()
         fun onTrendingSelected()
-        fun onMovieSelected(db_ID: UUID, tmdb_id: Int)
+        fun onMovieSelected(movie: MovieItem)
         fun onSelectFavoriteSelected()
     }
 
@@ -226,7 +219,7 @@ class TrendingFragment : Fragment() {
 
         override fun onClick(v: View?) {
             Toast.makeText(context, "${movie.tmdb_id} clicked!", Toast.LENGTH_SHORT).show()
-            callbacks?.onMovieSelected(movie.db_id,movie.tmdb_id)
+            callbacks?.onMovieSelected(movie)
         }
 
     }

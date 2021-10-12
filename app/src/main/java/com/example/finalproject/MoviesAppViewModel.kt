@@ -11,6 +11,7 @@ private const val TAG = "MoviesAppViewModel"
 
 class MoviesAppViewModel : ViewModel(){
 
+
     val movieItemLiveData: LiveData<List<MovieItem>>
 
     init {
@@ -24,9 +25,13 @@ class MoviesAppViewModel : ViewModel(){
 
     private val favoritesRepository = FavoritesRepository.get()
     val favoritesListLiveData = favoritesRepository.getFavorites()
+    val movieLiveData = MutableLiveData<MovieItem>()
     private val movieDetailLiveData = MutableLiveData<UUID>()
+    private val movieDetailLiveData_title = MutableLiveData<String>()
+    private val movieDetailLiveData_overview = MutableLiveData<String>()
+    private val movieDetailLiveData_rating = MutableLiveData<String>()
+    private val movieDetailLiveData_posterpath = MutableLiveData<String>()
 
-    //val curMovie = MovieItem()
     //store team scores here
     //var isScoreSaved = false
 
@@ -54,9 +59,15 @@ class MoviesAppViewModel : ViewModel(){
         favoritesRepository.updateFavorite(favorite)
     }
 
-    fun loadMovie(movieId: UUID) {
-        movieDetailLiveData.value = movieId
+    fun loadMovie(movieId: UUID, title:String, overview: String, rating: String, posterpath: String) {
+        movieLiveData.value = MovieItem(movieId,title,overview,rating,posterpath)
+//        movieDetailLiveData.value = movieId
+//        movieDetailLiveData_title.value = title
+//        movieDetailLiveData_overview.value = overview
+//        movieDetailLiveData_rating.value = rating
+//        movieDetailLiveData_posterpath.value = posterpath
     }
+//,overview,rating,posterpath
 //    fun getPhotoFile(game: Game): File {
 //        return gameRepository.getPhotoFile(game)
 //    }

@@ -23,4 +23,15 @@ data class MovieItem(
     var vote_count: Int = 0,
     var popularity: Double = 0.0,
     var media_type: String = "",
-)
+) {
+    //MovieItem(movieId,title,overview,rating,posterpath)
+    constructor(db_id: UUID, title: String, overview: String, rating: String, posterpath: String) : this() {
+        this.db_id = db_id
+        this.original_title = title
+        this.overview = overview
+        this.vote_average = rating.toDouble()
+        this.poster_path = posterpath
+
+    }
+
+}

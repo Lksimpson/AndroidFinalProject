@@ -57,14 +57,14 @@ class FavoritesListFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        favoritesListViewModel.gameListLiveData.observe(
-//            viewLifecycleOwner,
-//            Observer { movies ->
-//                movies?.let {
-//                    Log.i(TAG, "Got games ${movies.size}")
-//                    updateUI(movies)
-//                }
-//            })
+        favoritesListViewModel.favoritesListLiveData.observe(
+            viewLifecycleOwner,
+            Observer { movies ->
+                movies?.let {
+                    Log.i(TAG, "Got favorites ${movies.size}")
+                    updateUI(movies)
+                }
+            })
     }
 
     override fun onDetach() {

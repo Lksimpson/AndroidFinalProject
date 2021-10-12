@@ -17,7 +17,10 @@ import java.util.*
 
 
 private const val ARG_DB_ID = "db_id"
-private const val ARG_TMDB_ID = "tmdb_id"
+private const val ARG_TITLE = "movie_title"
+private const val ARG_OVERVIEW = "movie_overview"
+private const val ARG_POSTERPATH = "movie_posterpath"
+private const val ARG_RATING = "movie_rating"
 
 class MovieDetailsFragment : Fragment(){
 
@@ -45,10 +48,12 @@ class MovieDetailsFragment : Fragment(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        movie = MovieItem()
         val movieId: UUID = arguments?.getSerializable(ARG_DB_ID) as UUID
-        val tmdbId: Int = arguments?.getSerializable(ARG_TMDB_ID) as Int
-        favoritesListViewModel.loadMovie(movieId)
+        val title: String = arguments?.getSerializable(ARG_TITLE) as String
+        val overview: String = arguments?.getSerializable(ARG_OVERVIEW) as String
+        val rating: String = arguments?.getSerializable(ARG_RATING) as String
+        val posterpath: String = arguments?.getSerializable(ARG_POSTERPATH) as String
+        favoritesListViewModel.loadMovie(movieId,title,overview,rating,posterpath)
 
     }
 
@@ -63,6 +68,25 @@ class MovieDetailsFragment : Fragment(){
         directorField = view.findViewById(R.id.director) as TextView
         otherField = view.findViewById(R.id.rating) as TextView
 
+        favoritesButton = view.findViewById(R.id.add_to_favorites)
+
+        favoritesButton.setOnClickListener {
+            // check if movie is in favorites list
+            var flag = 0
+//            for (i in bbViewModel.gameListLiveData.value!!) {
+//                if (i.id == bbViewModel.curGame.id)
+//                    flag = 1
+//
+//            }
+            if (flag == 0)//not in list, add
+                favoritesListViewModel.movieLiveData.value?.let { it1 ->
+                    favoritesListViewModel.addFavorite(
+                        it1
+                    )
+                }
+//            else//in list, update
+//                bbViewModel.updateGame(bbViewModel.curGame)
+        }
 //        favoritesRecyclerView =
 //            view.findViewById(R.id.movieList) as RecyclerView
 //        favoritesRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -81,15 +105,20 @@ class MovieDetailsFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val movieId = arguments?.getSerializable(ARG_DB_ID) as UUID
-        val tmdbId = arguments?.getSerializable(ARG_TMDB_ID) as Int
-        favoritesListViewModel.loadMovie(movieId)
+        val title = arguments?.getSerializable(ARG_TITLE) as String
+        val overview = arguments?.getSerializable(ARG_OVERVIEW) as String
+        val rating = arguments?.getSerializable(ARG_RATING) as String
+        val posterpath = arguments?.getSerializable(ARG_POSTERPATH) as String
+        favoritesListViewModel.loadMovie(movieId,title,overview,rating,posterpath)
         favoritesListViewModel.movieItemLiveData.observe(
             viewLifecycleOwner,
             Observer { movie ->
                 movie?.let {
                     this.movie = movie[0]
-                    titleField.text = tmdbId.toString()
-                    //
+                    titleField.text = title
+                    genreField.text = overview
+                    otherField.text = rating
+                    directorField.text = posterpath
                    // updateUI()
                 }
             })
@@ -155,10 +184,13 @@ class MovieDetailsFragment : Fragment(){
 //        favoritesRecyclerView.adapter = adapter
     }
 
-    fun newInstance(dbId: UUID, tmdbId: Int): Fragment {
+    fun newInstance(movie: MovieItem): Fragment {
         val args = Bundle().apply {
-            putSerializable(ARG_DB_ID, dbId)
-            putSerializable(ARG_TMDB_ID, tmdbId)
+            putSerializable(ARG_DB_ID, movie.db_id)
+            putSerializable(ARG_TITLE, movie.title)
+            putSerializable(ARG_OVERVIEW, movie.overview)
+            putSerializable(ARG_RATING, movie.vote_average.toString())
+            putSerializable(ARG_POSTERPATH, movie.poster_path)
         }
         return MovieDetailsFragment().apply {
             arguments = args

@@ -4,8 +4,7 @@ package com.example.finalproject
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
-import com.example.group27project1.database.FavoritesDatabase
-import java.io.File
+import com.example.finalproject.database.FavoritesDatabase
 import java.util.*
 import java.util.concurrent.Executors
 

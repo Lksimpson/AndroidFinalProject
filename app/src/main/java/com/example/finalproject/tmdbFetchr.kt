@@ -6,7 +6,8 @@ import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.group27project1.api.*
+import com.example.finalproject.api.TrendingResponse
+import com.example.finalproject.api.tmdbApi
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
