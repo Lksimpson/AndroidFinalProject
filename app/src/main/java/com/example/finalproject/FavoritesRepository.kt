@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.example.finalproject.database.FavoritesDatabase
+import java.io.File
 import java.util.*
 import java.util.concurrent.Executors
 
@@ -44,7 +45,7 @@ class FavoritesRepository private constructor(context: Context) {
         }
     }
 
-    //fun getPhotoFile(game: MovieItem): File = File(filesDir, game.photoFileName)
+    fun getPhotoFile(movie: MovieItem): File = File(filesDir, movie.photoFileName)
 
 
     companion object {
