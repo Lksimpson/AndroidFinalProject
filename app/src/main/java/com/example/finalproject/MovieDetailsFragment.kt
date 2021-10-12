@@ -91,7 +91,7 @@ class MovieDetailsFragment : Fragment(){
 
         AddfavoritesButton = view.findViewById(R.id.add_to_fav_btn)
 
-        reactionText = view.findViewById(R.id.rating) as TextView
+        reactionText = view.findViewById(R.id.reaction) as TextView
         reactionView = view.findViewById(R.id.uploaded_photo) as ImageView
         cameraButton = view.findViewById(R.id.camera_btn) as ImageButton
 
@@ -193,7 +193,7 @@ class MovieDetailsFragment : Fragment(){
                     else//in list, update
                     {
                         AddfavoritesButton.visibility = View.GONE
-
+                        titleField.visibility = View.VISIBLE
                     }
                 }
             })
@@ -262,7 +262,7 @@ class MovieDetailsFragment : Fragment(){
     fun newInstance(movie: MovieItem): Fragment {
         val args = Bundle().apply {
             putSerializable(ARG_DB_ID, movie.db_id)
-            putSerializable(ARG_TITLE, movie.title)
+            putSerializable(ARG_TITLE, movie.original_title)
             putSerializable(ARG_OVERVIEW, movie.overview)
             putSerializable(ARG_RATING, movie.vote_average.toString())
             putSerializable(ARG_POSTERPATH, movie.poster_path)

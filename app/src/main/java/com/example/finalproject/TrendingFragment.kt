@@ -97,7 +97,10 @@ class TrendingFragment : Fragment() {
 
         favoritesBtn = view.findViewById(R.id.favorites_btn)
         favoritesBtn.setOnClickListener {
-            callbacks?.onFavoritesSelected()
+            Log.i(TAG, "search bar text")
+            Log.i(TAG, searchBar.query.toString())
+            favoritesListViewModel.movieItemLiveData = tmdbFetchr().getSearch(searchBar.query.toString())
+           //callbacks?.onFavoritesSelected()
         }
 
         searchBar = view.findViewById(R.id.searchView) as SearchView
@@ -237,10 +240,9 @@ class TrendingFragment : Fragment() {
         }
 
         override fun onClick(v: View?) {
-            Toast.makeText(context, "${movie.tmdb_id} clicked!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "${movie.original_title} clicked!", Toast.LENGTH_SHORT).show()
             callbacks?.onMovieSelected(movie)
         }
-
     }
 
 
