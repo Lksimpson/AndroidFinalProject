@@ -24,6 +24,9 @@ data class MovieItem(
     var popularity: Double = 0.0,
     var media_type: String = "",
 ) {
+
+    val photoFileName
+        get() = "IMG_$db_id.jpg"
     //MovieItem(movieId,title,overview,rating,posterpath)
     constructor(db_id: UUID, title: String, overview: String, rating: String, posterpath: String) : this() {
         this.db_id = db_id

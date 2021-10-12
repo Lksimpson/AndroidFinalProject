@@ -72,4 +72,8 @@ class MoviesAppViewModel : ViewModel(){
 //    fun getPhotoFile(game: Game): File {
 //        return gameRepository.getPhotoFile(game)
 //    }
+
+    fun getPhotoFile(movie: Movie): File {
+        return FavoritesRepository.getPhotoFile(movie)
+    }
 }
