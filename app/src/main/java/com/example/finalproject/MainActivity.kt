@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(),
     //override fun onFavoritesSelected(gameId: UUID) {
     override fun onFavoritesSelected() {
         Log.d(TAG, "MainActivity.onFavoritesSelected: ")
-        val fragment = FavoritesListFragment()
+        val fragment = FavoritesListFragment.newInstance()
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)
@@ -66,16 +66,6 @@ class MainActivity : AppCompatActivity(),
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commit()
-    }
-
-    override fun onSelectFavoriteSelected() {
-//        Log.d(TAG, "MainActivity.onTrendingSelected:" )
-//        val fragment = TrendingFragment()
-//        supportFragmentManager
-//            .beginTransaction()
-//            .replace(R.id.fragment_container, fragment)
-//            .addToBackStack(null)
-//            .commit()
     }
 
 }

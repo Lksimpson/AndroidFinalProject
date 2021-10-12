@@ -38,6 +38,11 @@ class FavoritesRepository private constructor(context: Context) {
             gameDao.addFavorite(movie)
         }
     }
+    fun removeFavorite(movie: MovieItem) {
+        executor.execute {
+            gameDao.removeFavorite(movie)
+        }
+    }
 
     //fun getPhotoFile(game: MovieItem): File = File(filesDir, game.photoFileName)
 

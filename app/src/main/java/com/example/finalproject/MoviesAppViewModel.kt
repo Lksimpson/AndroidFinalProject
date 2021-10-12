@@ -16,8 +16,8 @@ class MoviesAppViewModel : ViewModel(){
 
     init {
         Log.d(TAG, "ViewModel instance created")
-        //movieItemLiveData = tmdbFetchr().getTrending()
-        movieItemLiveData = tmdbFetchr().getSearch("Star Wars")
+        movieItemLiveData = tmdbFetchr().getTrending()
+        //movieItemLiveData = tmdbFetchr().getSearch("Star Wars")
     }
     override fun onCleared() {
         super.onCleared()
@@ -55,6 +55,9 @@ class MoviesAppViewModel : ViewModel(){
     }
     fun updateFavorite(favorite: MovieItem) {
         favoritesRepository.updateFavorite(favorite)
+    }
+    fun deleteFavorite(favorite: MovieItem) {
+        favoritesRepository.removeFavorite(favorite)
     }
 
     fun loadMovie(movieId: UUID, title:String, overview: String, rating: String, posterpath: String) {

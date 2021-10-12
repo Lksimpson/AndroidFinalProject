@@ -43,24 +43,17 @@ class TrendingFragment : Fragment() {
         fun onFavoritesSelected()
         fun onTrendingSelected()
         fun onMovieSelected(movie: MovieItem)
-        fun onSelectFavoriteSelected()
       //  abstract fun doMySearch(query: String)
     }
 
     private var callbacks: Callbacks? = null
-
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-
+    //private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var fullListRecyclerView: RecyclerView
     private lateinit var thumbnailDownloader: ThumbnailDownloader<MovieHolder>
-
-
     private var adapter: TrendingFragment.MovieAdapter? = MovieAdapter(emptyList())
-
     private val favoritesListViewModel: MoviesAppViewModel by lazy {
         ViewModelProviders.of(this).get(MoviesAppViewModel::class.java)
     }
-
 
     companion object {
         fun newInstance(): TrendingFragment {
@@ -74,13 +67,6 @@ class TrendingFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireContext())
-        //val gaeId: UUID = arguments?.getSerializable(ARG_CRIME_ID) as UUID
-        //crimeDetailViewModel.loadCrime(crimeId)
-
-        //val flickrLiveData: LiveData<String> = WeatherFetchr().fetchPhotos()
-
         val responseHandler = Handler()
         thumbnailDownloader =
             ThumbnailDownloader(responseHandler) { photoHolder, bitmap ->
@@ -212,11 +198,6 @@ class TrendingFragment : Fragment() {
 //        if (requestCode == REQUEST_PHOTO) {
 //            updatePhotoView()
 //        }
-    }
-
-    fun doMySearch(query:String)
-    {
-
     }
 
     private inner class MovieHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {

@@ -1,10 +1,7 @@
 package com.example.finalproject.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.example.finalproject.MainActivity
 import com.example.finalproject.MovieItem
 
@@ -24,4 +21,7 @@ interface FavoriteDAO {
 
     @Insert
     fun addFavorite(favorite: MovieItem)
+
+    @Delete
+    fun removeFavorite(favorite: MovieItem)
 }

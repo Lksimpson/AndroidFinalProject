@@ -31,12 +31,18 @@ class FavoritesListFragment : Fragment(){
         ViewModelProviders.of(this).get(MoviesAppViewModel::class.java)
     }
 
+    companion object {
+        fun newInstance(): FavoritesListFragment {
+            return FavoritesListFragment()
+        }
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         callbacks = context as TrendingFragment.Callbacks?
     }
 
-    private lateinit var  favoritesBtn: Button
+    private lateinit var  HomePageBtn: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,11 +70,9 @@ class FavoritesListFragment : Fragment(){
 
         favoritesRecyclerView.adapter = adapter
 
-        favoritesBtn = view.findViewById(R.id.movie_list_btn)
-        favoritesBtn.setOnClickListener {
-
+        HomePageBtn = view.findViewById(R.id.movie_list_btn)
+        HomePageBtn.setOnClickListener {
             callbacks?.onTrendingSelected()
-
         }
         return view
     }
@@ -95,11 +99,13 @@ class FavoritesListFragment : Fragment(){
 
         private lateinit var movie: MovieItem
 
+
         private val titleTextView: TextView = itemView.findViewById(R.id.movie_title)
-        private val descTextView: TextView = itemView.findViewById(R.id.movie_desc)
-        private val voteavgTextView: TextView = itemView.findViewById(R.id.movie_voteavg)
-        private val poster: ImageView = itemView.findViewById(R.id.movie_poster) as ImageView
-        private val checkBox: CheckBox = itemView.findViewById(R.id.checkBox) as CheckBox
+
+        private var deleteButton: ImageButton = itemView.findViewById(R.id.delete_btn)
+        //private val descTextView: TextView = itemView.findViewById(R.id.movie_desc)
+        //private val voteavgTextView: TextView = itemView.findViewById(R.id.movie_voteavg)
+        private val poster: ImageView = itemView.findViewById(R.id.imageView2) as ImageView
 
         val bindDrawable: (Drawable) -> Unit = poster::setImageDrawable
         init {
@@ -108,14 +114,24 @@ class FavoritesListFragment : Fragment(){
 
         fun bind(movie: MovieItem) {
             this.movie = movie
-            titleTextView.text = movie.title
-            descTextView.text = movie.overview
-            voteavgTextView.text = movie.vote_average.toString()
-            this.movie.poster_path = "https://image.tmdb.org/t/p/" + "w92/" + this.movie.poster_path
+            titleTextView.text = movie.original_title
+//            descTextView.text = movie.overview
+//            voteavgTextView.text = movie.vote_average.toString()
+
+            deleteButton.setOnClickListener {
+                favoritesListViewModel.movieLiveData.value?.let { it1 ->
+                    favoritesListViewModel.deleteFavorite(
+                        it1
+                    )
+                }
+            }
+
+            movie.poster_path = "https://image.tmdb.org/t/p/" + "w92/" + movie.poster_path
         }
 
+
         override fun onClick(v: View?) {
-            Toast.makeText(context, "${movie.tmdb_id} clicked!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "${movie.original_title} clicked!", Toast.LENGTH_SHORT).show()
             callbacks?.onMovieSelected(movie)
         }
     }
@@ -125,7 +141,7 @@ class FavoritesListFragment : Fragment(){
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
             val layoutInflater = LayoutInflater.from(context)
 
-            val view = layoutInflater.inflate(R.layout.list_item_movie, parent, false)
+            val view = layoutInflater.inflate(R.layout.list_item_favorite, parent, false)
             return MovieHolder(view)
         }
 
