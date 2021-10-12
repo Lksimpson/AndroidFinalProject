@@ -37,7 +37,15 @@ class MovieDetailsFragment : Fragment(){
     private lateinit var trendingButton: Button
     private lateinit var favoritesButton: Button
     private lateinit var photoView: ImageView
-    //private lateinit var  favoritesBtn: Button
+
+    private lateinit var AddfavoritesButton: Button
+
+    private lateinit var reactionView: ImageView
+    private lateinit var reactionText: TextView
+    private lateinit var cameraButton: ImageButton
+
+    private lateinit var  favoritesBtn: Button
+    private lateinit var  HomePageBtn: Button
 
     private val favoritesListViewModel: MoviesAppViewModel by lazy {
         ViewModelProviders.of(this).get(MoviesAppViewModel::class.java)
@@ -81,8 +89,21 @@ class MovieDetailsFragment : Fragment(){
 //        directorField = view.findViewById(R.id.director) as TextView
         otherField = view.findViewById(R.id.rating) as TextView
 
-        favoritesButton = view.findViewById(R.id.add_to_fav_btn)
+        AddfavoritesButton = view.findViewById(R.id.add_to_fav_btn)
 
+        reactionText = view.findViewById(R.id.rating) as TextView
+        reactionView = view.findViewById(R.id.uploaded_photo) as ImageView
+        cameraButton = view.findViewById(R.id.camera_btn) as ImageButton
+
+        favoritesBtn = view.findViewById(R.id.favorites_btn)
+        HomePageBtn = view.findViewById(R.id.movies_btn)
+
+        favoritesBtn.setOnClickListener {
+            callbacks?.onFavoritesSelected()
+        }
+        HomePageBtn.setOnClickListener {
+            callbacks?.onTrendingSelected()
+        }
 
         //check if movie is in favorites list
 //        var flag = 0
@@ -102,11 +123,11 @@ class MovieDetailsFragment : Fragment(){
 //        }
 
 
-        favoritesButton.setOnClickListener {
+        AddfavoritesButton.setOnClickListener {
             // check if movie is in favorites list
             var flag = 0
             for (i in favoritesListViewModel.favoritesListLiveData.value!!) {
-                if (i.db_id == favoritesListViewModel.movieLiveData.value?.db_id)
+                if (i.original_title == favoritesListViewModel.movieLiveData.value?.original_title)
                     flag = 1
             }
             if (flag == 0)//not in list, add
